@@ -27,7 +27,7 @@ class Code_Snippet_Wp_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
@@ -36,7 +36,7 @@ class Code_Snippet_Wp_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version The current version of this plugin.
 	 */
 	private $version;
 
@@ -44,13 +44,14 @@ class Code_Snippet_Wp_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 *
+	 * @param      string $plugin_name The name of this plugin.
+	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -98,6 +99,54 @@ class Code_Snippet_Wp_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/code-snippet-wp-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Generate the plugin setting menu.
+	 */
+	public function generate_setting_page() {
+		$menu_page = add_menu_page(
+			'Gists WordPress Posts',
+			'Gists',
+			'administrator',
+			'gists-wp',
+			array(
+				$this,
+				'render_setting_ui',
+			),
+			'dashicons-smiley'
+		);
+
+		add_action(
+			'admin_print_styles-' . $menu_page,
+			array(
+				$this,
+				'add_setting_assets',
+			)
+		);
+	}
+
+	/**
+	 * Render the plugin setting UI.
+	 */
+	public function render_setting_ui() {
+		?>
+		<h3>Gists Settings</h3>
+		<div id="csw-app"></div>
+		<?php
+	}
+
+	/**
+	 * Add the assets file.
+	 */
+	public function add_setting_assets() {
+		wp_enqueue_script(
+			'csw_bundle',
+			plugin_dir_url( CSW_BASE_FILE ) . 'admin/js/dist/gists-snippet-bundle.js',
+			array(),
+			CSW_VERSION,
+			true
+		);
 	}
 
 }

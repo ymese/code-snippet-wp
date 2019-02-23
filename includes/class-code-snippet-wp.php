@@ -35,7 +35,7 @@ class Code_Snippet_Wp {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Code_Snippet_Wp_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Code_Snippet_Wp_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,7 +44,7 @@ class Code_Snippet_Wp {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -53,7 +53,7 @@ class Code_Snippet_Wp {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -156,6 +156,7 @@ class Code_Snippet_Wp {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'generate_setting_page' );
 
 	}
 
