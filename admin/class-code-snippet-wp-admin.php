@@ -105,7 +105,7 @@ class Code_Snippet_Wp_Admin {
 	 * Generate the plugin setting menu.
 	 */
 	public function generate_setting_page() {
-		add_menu_page(
+		$menu_page = add_menu_page(
 			'Gists WordPress Posts',
 			'Gists',
 			'administrator',
@@ -116,6 +116,14 @@ class Code_Snippet_Wp_Admin {
 			),
 			'dashicons-smiley'
 		);
+
+		add_action(
+			'admin_print_styles-' . $menu_page,
+			array(
+				$this,
+				'add_setting_assets',
+			)
+		);
 	}
 
 	/**
@@ -124,7 +132,21 @@ class Code_Snippet_Wp_Admin {
 	public function render_setting_ui() {
 		?>
 		<h3>Gists Settings</h3>
+		<div id="csw-app"></div>
 		<?php
+	}
+
+	/**
+	 * Add the assets file.
+	 */
+	public function add_setting_assets() {
+		wp_enqueue_script(
+			'csw_bundle',
+			plugin_dir_url( CSW_BASE_FILE ) . 'admin/js/dist/gists-snippet-bundle.js',
+			array(),
+			CSW_VERSION,
+			true
+		);
 	}
 
 }
